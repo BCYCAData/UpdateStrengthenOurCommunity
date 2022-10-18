@@ -1,3 +1,4 @@
+import { json as json$1 } from '@sveltejs/kit';
 import { supabaseClient } from '$lib/dbClient';
 
 let mapData = { jsonLayers: [] };
@@ -8,10 +9,9 @@ export const GET = async () => {
 		.select('geom,addresspointtype');
 	if (errorAll) {
 		console.log('error get Addresspoints:', errorAll);
-		return {
-			status: 400,
-			body: { errorAll }
-		};
+		return json$1({ errorAll }, {
+			status: 400
+		});
 	}
 	if (allPoints.length > 0) {
 		mapData.jsonLayers[0] = allPoints;
@@ -21,22 +21,17 @@ export const GET = async () => {
 	);
 	if (errorRegistered) {
 		console.log('error get registetred Addresspoints:', errorRegistered);
-		return {
-			status: 400,
-			body: { errorRegistered }
-		};
+		return json$1({ errorRegistered }, {
+			status: 400
+		});
 	}
 	if (registeredPoints.length > 0) {
 		mapData.jsonLayers[1] = registeredPoints;
 	}
 	if (mapData.jsonLayers.length > 0) {
-		return {
-			status: 200,
-			body: { mapData }
-		};
+		return json$1({ mapData });
 	}
-	return {
-		status: 400,
-		body: {}
-	};
+	return json$1({}, {
+		status: 400
+	});
 };

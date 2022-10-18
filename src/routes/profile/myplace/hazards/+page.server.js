@@ -1,39 +1,38 @@
-import { supabaseServerClient, withApiAuth } from '@supabase/auth-helpers-sveltekit';
+import { getSupabase } from '@supabase/auth-helpers-sveltekit';
+import { error, redirect } from '@sveltejs/kit';
 
-export const GET = async ({ locals, request }) =>
+/** @type {import('./$types').Actions} */
+export const actions = {
+	default: () => {}
+};
+
+/** @type {import('./$types').PageServerLoad} */
+export const load = async ({ locals, request }) =>
 	withApiAuth(
 		{
 			redirectTo: '/auth/signin',
 			user: locals.user
 		},
 		async () => {
-			const { data: profileData, error } = await supabaseServerClient(request)
+			const { data: profileData, error: profileError } = await supabaseClient
 				.from('profile')
 				.select('site_hazards,other_site_hazards,land_adjacent_hazard,other_hazards')
-				.eq('id', locals.user.id);
-			if (error) {
-				console.log('error profileHazards:', error);
-				return {
-					status: 400,
-					body: { error }
-				};
+				.eq('id', session.user.id);
+			if (profileError) {
+				console.log('error profileHazards:', profileError);
+				throw error(400, profileError.message);
 			}
 			if (profileData.length === 1) {
 				let profileHazards = profileData[0];
 				if (null == profileHazards.site_hazards) {
 					profileHazards.site_hazards = [];
 				}
-				return {
-					status: 200,
-					body: { profileHazards }
-				};
+				return profileHazards;
 			}
-			return {
-				status: 400,
-				body: {}
-			};
+			throw error(400, 'Could not GET Profile Hazards data');
 		}
 	);
+
 export const POST = async ({ locals, request }) =>
 	withApiAuth(
 		{
@@ -41,33 +40,27 @@ export const POST = async ({ locals, request }) =>
 			user: locals.user
 		},
 		async () => {
-			const body = await request.formData();
-			const { data: profileData, error } = await supabaseServerClient(request)
+			const formData = await request.formData();
+			const { data: profileData, error: profileError } = await supabaseClient
 				.from('profile')
 				.update({
 					site_hazards: body.getAll('site_hazards'),
-					other_site_hazards: body.get('other_site_hazards'),
-					land_adjacent_hazard: body.get('land_adjacent_hazard'),
-					other_hazards: body.get('other_hazards')
+					other_site_hazards: formData.get('other_site_hazards'),
+					land_adjacent_hazard: formData.get('land_adjacent_hazard'),
+					other_hazards: formData.get('other_hazards')
 				})
-				.eq('id', locals.user.id);
-			if (error) {
-				console.log('update error profileHazards:', error);
-				return {
-					status: 400,
-					body: { error }
-				};
+				.eq('id', session.user.id);
+			if (profileError) {
+				console.log('update error profileHazards:', profileError);
+				throw error(400, profileError.message);
 			}
-			if (profileData.length === 1) {
-				let profileHazards = profileData[0];
-				return {
-					status: 200,
-					body: { profileHazards }
-				};
-			}
-			return {
-				status: 400,
-				body: {}
-			};
+			// if (profileData.length === 1) {
+			// 	let profileHazards = profileData[0];
+			// 	return {
+			// 		status: 200,
+			// 		body: { profileHazards }
+			// 	};
+			// }
+			throw error(400, 'Could not POST Profile Hazards data');
 		}
 	);

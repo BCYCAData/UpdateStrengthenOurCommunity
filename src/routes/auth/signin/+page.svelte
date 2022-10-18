@@ -1,7 +1,6 @@
 <script>
 	import Modal from '$components/Modal.svelte';
 	import AddressChallenge from '$components/form/addressChallenge/AddressChallenge.svelte';
-
 	import AuthErrorMessage from '$components/form/AuthErrorMessage.svelte';
 
 	/**
@@ -14,7 +13,10 @@
 	let password;
 
 	let modalVisible = false;
-	export let errorMessage = '';
+
+	// export let data;
+	export let form;
+	let errorMessage = form?.error ?? '';
 </script>
 
 <div class="flex flex-col items-center max-w-sm max-w-screen-xsm mx-auto">

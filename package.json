@@ -1,39 +1,40 @@
 {
 	"name": "strengthen-our-community",
-	"version": "0.0.1",
+	"version": "0.1.1",
+	"private": true,
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
-		"package": "svelte-kit package",
 		"preview": "vite preview",
-		"lint": "prettier --check --plugin-search-dir=. . && eslint .",
-		"format": "prettier --write --plugin-search-dir=. ."
+		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
+		"lint": "prettier --plugin-search-dir . --check . && eslint .",
+		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
-		"@iconify-json/carbon": "^1.1.7",
+		"@iconify-json/carbon": "^1.1.8",
 		"@iconify-json/gis": "^1.1.2",
-		"@iconify/svelte": "^2.2.1",
-		"@sveltejs/adapter-auto": "1.0.0-next.64",
-		"@sveltejs/kit": "1.0.0-next.405",
-		"@types/leaflet": "^1.7.11",
-		"@unocss/preset-icons": "^0.45.1",
+		"@iconify/svelte": "^3.0.0",
+		"@sveltejs/adapter-auto": "next",
+		"@sveltejs/kit": "next",
+		"@unocss/preset-icons": "^0.45.29",
 		"eslint": "^8.16.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-svelte3": "^4.0.0",
 		"prettier": "^2.6.2",
 		"prettier-plugin-svelte": "^2.7.0",
 		"svelte": "^3.44.0",
-		"unocss": "^0.45.1",
-		"vite": "^3.0.0"
+		"svelte-check": "^2.7.1",
+		"typescript": "^4.7.4",
+		"unocss": "^0.45.29",
+		"vite": "^3.1.0"
 	},
 	"type": "module",
 	"dependencies": {
-		"@fontsource/fira-mono": "^4.5.8",
-		"@supabase/auth-helpers-svelte": "^0.4.5",
-		"@supabase/auth-helpers-sveltekit": "^0.6.8",
-		"@supabase/supabase-js": "^1.35.4",
-		"esri-leaflet": "^3.0.8",
-		"leaflet": "^1.8.0",
-		"maplibre-gl": "^2.4.0"
+		"@fontsource/fira-mono": "^4.5.10",
+		"@supabase/auth-helpers-sveltekit": "^0.8.2",
+		"@supabase/supabase-js": "^2.0.0",
+		"leaflet": "^1.9.2",
+		"ol": "^7.1.0"
 	}
 }

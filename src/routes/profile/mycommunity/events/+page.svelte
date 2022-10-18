@@ -17,7 +17,8 @@
 		}
 	});
 
-	export let profileEvents;
+	export let data;
+	let profileEvents = data;
 </script>
 
 {#if modalVisible}

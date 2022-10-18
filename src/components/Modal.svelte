@@ -23,13 +23,20 @@
 		in:fade={{ duration: 300 }}
 		out:fly={{ y: 500, duration: 400 }}
 	>
-		<span
+		<!-- <span
 			class="fixed cursor-pointer hover:font-bold right-0 pr-1"
 			on:click={() => dispatch('exit')}
 		>
 			&times
+		</span> -->
+		<span>
+			<button
+				class="fixed cursor-pointer hover:font-bold right-0 pr-1"
+				on:click={() => dispatch('exit')}
+			>
+				&times
+			</button>
 		</span>
-
 		<slot />
 	</div>
 </div>

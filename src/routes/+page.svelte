@@ -36,20 +36,12 @@
 		Above all, we want our community to feel prepared, safe and connected.
 	</p>
 	<p class="text-base md:text-lg text-red-700 font-semibold mt-1 mb-0">Will you join us?</p>
-	<p
+	<button
 		class="cursor-pointer max-w-80 no-underline hover:underline mt-1 p-2 font-semibold text-stone-100 bg-orange-500 rounded-xl"
 		on:click={() => (modalVisible = !modalVisible)}
 	>
 		Tap here to find out if you qualify
-	</p>
-	<!-- <p class="text-base md:text-lg mt-3 ">
-		Please complete our initial online survey at <br />
-		<span>
-			<a class="text-blue-600" href="https://forms.gle/z6dHgPxJbS7AhGLa6">
-				https://forms.gle/z6dHgPxJbS7AhGLa6
-			</a>
-		</span>
-	</p> -->
+	</button>
 	<p class="text-sm md:text-lg mt-1 font-semibold">Want more information?</p>
 	<p class="text-sm md:text-lg mt-0 font-semibold">Call Helen 0424 515 963</p>
 </section>

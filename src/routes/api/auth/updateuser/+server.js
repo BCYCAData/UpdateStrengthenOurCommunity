@@ -1,17 +1,20 @@
+import { json } from '@sveltejs/kit';
 import { supabaseClient } from '$lib/dbClient';
 
 // export const POST = async ({ request }) => {
 export const POST = async ({ locals, request }) => {
-	const body = await request.formData();
+	const formData = await request.formData();
 	const { error } = await supabaseClient.auth.api.updateUser(body.get('token'), {
-		password: body.get('password')
+		password: formData.get('password')
 	});
 	if (error) {
 		console.log('update user error:', error);
-		return {
-			status: 400,
-			body: { error }
-		};
+		return json(
+			{ error },
+			{
+				status: 400
+			}
+		);
 	}
 	if (body.get('mode') === 'invite') {
 		const { data: addressData, error: addressError } = await supabaseClient.rpc(
@@ -22,10 +25,12 @@ export const POST = async ({ locals, request }) => {
 		);
 		if (addressError) {
 			console.log('addressError', addressError);
-			return {
-				status: 400,
-				body: { message: 'Could not get metadata' }
-			};
+			return json(
+				{ message: 'Could not get metadata' },
+				{
+					status: 400
+				}
+			);
 		} else {
 			let resultData = addressData[0];
 			const { error: updateMetadataError } = await supabaseClient.auth.api.updateUser(
@@ -39,15 +44,14 @@ export const POST = async ({ locals, request }) => {
 			);
 			if (updateMetadataError) {
 				console.log('updateMetadataError', updateMetadataError);
-				return {
-					status: 400,
-					body: { message: 'Could not update metadata' }
-				};
+				return json(
+					{ message: 'Could not update metadata' },
+					{
+						status: 400
+					}
+				);
 			}
 		}
 	}
-	return {
-		headers: { Location: '/profile' },
-		status: 302
-	};
+	return new Response(undefined, { status: 302, headers: { Location: '/profile' } });
 };

@@ -1,79 +1,64 @@
-import { supabaseServerClient, withApiAuth } from '@supabase/auth-helpers-sveltekit';
+import { getSupabase } from '@supabase/auth-helpers-sveltekit';
+import { error, redirect } from '@sveltejs/kit';
 
-export const GET = async ({ locals, request }) =>
-	withApiAuth(
-		{
-			redirectTo: '/auth/signin',
-			user: locals.user
-		},
-		async () => {
-			const { data: profileData, error } = await supabaseServerClient(request)
-				.from('profile')
-				.select(
-					'first_name,family_name,mobile,phone,mobile_reception,rfs_survival_plan,send_rfs_survival_plan,fire_fighting_experience,fire_trauma,plan_to_leave_before_fire,plan_to_leave_before_flood'
-				)
-				.eq('id', locals.user.id);
-			if (error) {
-				console.log('error profileAboutMe:', error);
-				return {
-					status: 400,
-					body: { error }
-				};
-			}
-			if (profileData.length === 1) {
-				let profileAboutMe = profileData[0];
+/** @type {import('./$types').PageServerLoad} */
+export const load = async (event) => {
+	const { session, supabaseClient } = await getSupabase(event);
+	if (!session) {
+		throw redirect(303, '/auth/signin');
+	}
+	const { data: profileData, error: profileError } = await supabaseClient
+		.from('profile')
+		.select(
+			'first_name,family_name,mobile,phone,mobile_reception,rfs_survival_plan,send_rfs_survival_plan,fire_fighting_experience,fire_trauma,plan_to_leave_before_fire,plan_to_leave_before_flood'
+		)
+		.eq('id', session.user.id);
+	if (profileError) {
+		throw error(400, profileError.message);
+	}
+	if (profileData.length === 1) {
+		let profileAboutMe = profileData[0];
+		return {
+			user: session.user,
+			profileAboutMe
+		};
+	}
+	throw error(400, 'Something went wrong retrieving the Profile About Me data.');
+};
 
-				return {
-					status: 200,
-					body: { profileAboutMe }
-				};
-			}
-			return {
-				status: 400,
-				body: {}
-			};
+/** @type {import('./$types').Actions} */
+export const actions = {
+	default: async (event) => {
+		const { request } = event;
+		const { session, supabaseClient } = await getSupabase(event);
+		if (!session) {
+			throw error(403, { message: 'Unauthorized' });
 		}
-	);
-
-export const POST = async ({ locals, request }) =>
-	withApiAuth(
-		{
-			user: locals.user
-		},
-		async () => {
-			const body = await request.formData();
-			const { data: profileData, error } = await supabaseServerClient(request)
-				.from('profile')
-				.update({
-					first_name: body.get('first_name'),
-					family_name: body.get('family_name'),
-					phone: body.get('phone'),
-					mobile: body.get('mobile'),
-					mobile_reception: parseInt(body.get('mobile_reception')),
-					rfs_survival_plan: body.get('rfs_survival_plan'),
-					fire_fighting_experience: body.get('fire_fighting_experience'),
-					fire_trauma: body.get('fire_trauma'),
-					plan_to_leave_before_fire: body.get('plan_to_leave_before_fire'),
-					plan_to_leave_before_flood: body.get('plan_to_leave_before_flood')
-				})
-				.eq('id', locals.user.id);
-			if (error) {
-				console.log('update error profileAboutMe:', error);
-				return {
-					status: 400,
-					body: { error }
-				};
-			}
-			if (profileData.length === 1) {
-				let profileAboutMe = profileData[0];
-				return {
-					status: 200,
-					body: { profileAboutMe }
-				};
-			}
-			return {
-				status: 400,
-				body: {}
-			};
+		const formData = await request.formData();
+		const { data: profileData, error: profileError } = await supabaseClient
+			.from('profile')
+			.update({
+				first_name: formData.get('first_name'),
+				family_name: formData.get('family_name'),
+				phone: formData.get('phone'),
+				mobile: formData.get('mobile'),
+				mobile_reception: parseInt(formData.get('mobile_reception')),
+				rfs_survival_plan: formData.get('rfs_survival_plan'),
+				fire_fighting_experience: formData.get('fire_fighting_experience'),
+				fire_trauma: formData.get('fire_trauma'),
+				plan_to_leave_before_fire: formData.get('plan_to_leave_before_fire'),
+				plan_to_leave_before_flood: formData.get('plan_to_leave_before_flood')
+			})
+			.eq('id', session.user.id)
+			.select();
+		const profileAboutMe = profileData[0];
+		if (profileError) {
+			console.log('update error profileAboutMe:', profileError);
+			throw error(400, profileError.message);
 		}
-	);
+		return {
+			user: session.user,
+			profileAboutMe: profileAboutMe
+		};
+	}
+};

@@ -1,7 +1,8 @@
+import { json } from '@sveltejs/kit';
 import { supabaseClient, supabaseRedirectBase } from '$lib/dbClient';
 
 export const POST = async ({ request }) => {
-	const body = await request.formData();
+	const formData = await request.formData();
 	let password = body.get('password');
 	let email = body.get('email');
 	let gid = body.get('gid');
@@ -23,13 +24,12 @@ export const POST = async ({ request }) => {
 	);
 	if (errorSignUp) {
 		console.log('signup error:', errorSignUp);
-		return {
-			status: 400,
-			body: { errorSignUp }
-		};
+		return json(
+			{ errorSignUp },
+			{
+				status: 400
+			}
+		);
 	}
-	return {
-		headers: { Location: '/auth/redirect' },
-		status: 302
-	};
+	return new Response(undefined, { status: 302, headers: { Location: '/auth/redirect' } });
 };

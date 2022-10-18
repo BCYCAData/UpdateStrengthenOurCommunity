@@ -1,37 +1,29 @@
-import { supabaseServerClient, withApiAuth } from '@supabase/auth-helpers-sveltekit';
+import { getSupabase } from '@supabase/auth-helpers-sveltekit';
+import { error, redirect } from '@sveltejs/kit';
 
-export const GET = async ({ locals, request }) =>
-	withApiAuth(
-		{
-			user: locals.user
-		},
-		async () => {
-			const { data: profileData, error } = await supabaseServerClient(request)
-				.from('profile')
-				.select(
-					'number_dogs,number_cats,number_birds,number_other_pets,live_stock_present,live_stock_safe_area,share_livestock_safe_area,other_essential_assets'
-				)
-				.eq('id', locals.user.id);
-			if (error) {
-				console.log('error profileAssets:', error);
-				return {
-					status: 400,
-					body: { error }
-				};
-			}
-			if (profileData.length === 1) {
-				let profileAssets = profileData[0];
-				return {
-					status: 200,
-					body: { profileAssets }
-				};
-			}
-			return {
-				status: 400,
-				body: {}
-			};
-		}
-	);
+/** @type {import('./$types').PageServerLoad} */
+export const load = async (event) => {
+	const { session, supabaseClient } = await getSupabase(event);
+	if (!session) {
+		throw redirect(303, '/auth/signin');
+	}
+	const { data: profileData, error: errorProfile } = await supabaseClient
+		.from('profile')
+		.select(
+			'number_dogs,number_cats,number_birds,number_other_pets,live_stock_present,live_stock_safe_area,share_livestock_safe_area,other_essential_assets'
+		)
+		.eq('id', session.user.id);
+	if (errorProfile) {
+		console.log('error profileAssets:', errorProfile);
+		throw error(400, errorProfile.message);
+	}
+	if (profileData.length === 1) {
+		let profileAssets = profileData[0];
+		return profileAssets;
+	}
+	throw error(400, 'Could not GET Profile Assets data');
+};
+
 export const POST = async ({ locals, request }) =>
 	withApiAuth(
 		{
@@ -39,37 +31,31 @@ export const POST = async ({ locals, request }) =>
 			user: locals.user
 		},
 		async () => {
-			const body = await request.formData();
-			const { data: profileData, error } = await supabaseServerClient(request)
+			const formData = await request.formData();
+			const { data: profileData, error: errorProfile } = await supabaseClient
 				.from('profile')
 				.update({
-					number_dogs: parseInt(body.get('number_dogs')) || 0,
-					number_cats: parseInt(body.get('number_cats')) || 0,
-					number_birds: parseInt(body.get('number_birds')) || 0,
-					number_other_pets: parseInt(body.get('number_other_pets')) || 0,
-					live_stock_present: body.get('live_stock_present'),
-					live_stock_safe_area: body.get('live_stock_safe_area'),
-					share_livestock_safe_area: body.get('share_livestock_safe_area'),
-					other_essential_assets: body.get('other_essential_assets')
+					number_dogs: parseInt(formData.get('number_dogs')) || 0,
+					number_cats: parseInt(formData.get('number_cats')) || 0,
+					number_birds: parseInt(formData.get('number_birds')) || 0,
+					number_other_pets: parseInt(formData.get('number_other_pets')) || 0,
+					live_stock_present: formData.get('live_stock_present'),
+					live_stock_safe_area: formData.get('live_stock_safe_area'),
+					share_livestock_safe_area: formData.get('share_livestock_safe_area'),
+					other_essential_assets: formData.get('other_essential_assets')
 				})
-				.eq('id', locals.user.id);
-			if (error) {
-				console.log('update error profileAssets:', error);
-				return {
-					status: 400,
-					body: { error }
-				};
+				.eq('id', session.user.id);
+			if (errorProfile) {
+				console.log('update error profileAssets:', errorProfile);
+				throw error(400, errorProfile.message);
 			}
-			if (profileData.length === 1) {
-				let profileAssets = profileData[0];
-				return {
-					status: 200,
-					body: { profileAssets }
-				};
-			}
-			return {
-				status: 400,
-				body: {}
-			};
+			// if (profileData.length === 1) {
+			// 	let profileAssets = profileData[0];
+			// 	return {
+			// 		status: 200,
+			// 		body: { profileAssets }
+			// 	};
+			// }
+			throw error(400, 'Could not POST Profile Assets data');
 		}
 	);

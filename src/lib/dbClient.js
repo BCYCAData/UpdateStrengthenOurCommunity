@@ -1,10 +1,6 @@
-import { createSupabaseClient } from '@supabase/auth-helpers-sveltekit';
+import { createClient } from '@supabase/auth-helpers-sveltekit';
+import { env } from '$env/dynamic/public';
 
-export const supabaseRedirectBase = import.meta.env.VITE_SUPABASE_REDIRECT_URL_BASE.toString();
+export const supabaseRedirectBase = env.VITE_SUPABASE_REDIRECT_URL_BASE;
 
-const { supabaseClient } = createSupabaseClient(
-	import.meta.env.VITE_SUPABASE_URL.toString(),
-	import.meta.env.VITE_SUPABASE_ANON_KEY.toString()
-);
-
-export { supabaseClient };
+export const supabaseClient = createClient(env.PUBLIC_SUPABASE_URL, env.PUBLIC_SUPABASE_ANON_KEY);

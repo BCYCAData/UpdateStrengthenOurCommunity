@@ -16,7 +16,14 @@
 		}
 	});
 
-	export let profileMyPlace;
+	/** @type {import('./$types').PageData} */
+	export let data;
+	$: ({ user, profileMyPlace } = data);
+	console.log(data);
+
+	// /** @type {import('./$types').ActionData} */
+	// export let form;
+	// console.log('form', form);
 
 	/**
 	 * Need to get the validAddress & searchAddress from the address challenge into a store

@@ -1,8 +1,15 @@
-import { supabaseServerClient, withApiAuth } from '@supabase/auth-helpers-sveltekit';
+import { getSupabase } from '@supabase/auth-helpers-sveltekit';
 import { getFormBody, resetProfile } from '$lib/utils';
 import { supabaseClient } from '$lib/dbClient';
+import { error, redirect } from '@sveltejs/kit';
 
-export const GET = async ({ locals, request }) =>
+/** @type {import('./$types').Actions} */
+export const actions = {
+	default: () => {}
+};
+
+/** @type {import('./$types').PageServerLoad} */
+export const load = async ({ locals, request }) =>
 	withApiAuth(
 		{
 			redirectTo: '/auth/signin',
@@ -16,33 +23,27 @@ export const GET = async ({ locals, request }) =>
 				}
 			);
 			if (survey) {
-				const { data: survey, error: errorSurvey } = await supabaseServerClient(request)
+				const { data: survey, error: errorSurvey } = await supabaseClient
 					.from('survey_responses')
 					.select('*')
 					.eq('email_address', locals.user.email)
 					.is('invited', null);
 				if (errorSurvey) {
-					console.log('error Get Survey:', errorSurvey.message);
+					console.log('error Get Survey:', errorSurvey);
 					let message = errorSurvey.message;
-					return {
-						status: 400,
-						body: { message }
-					};
+					throw error(400, message);
 				}
 				if (survey[0]) {
 					await resetProfile(survey[0], locals, request);
 				}
 			}
-			const { data: profile, error } = await supabaseServerClient(request)
+			const { data: profile, error: profileError } = await supabaseClient
 				.from('profile')
 				.select('*')
-				.eq('id', locals.user.id);
-			if (error) {
-				console.log('error Get Profile for Survey:', error);
-				return {
-					status: 400,
-					body: { error }
-				};
+				.eq('id', session.user.id);
+			if (profileError) {
+				console.log('error Get Profile for Survey:', profileError);
+				throw error(400, profileError.message);
 			}
 			if (profile.length === 1) {
 				let surveyData = profile[0];
@@ -75,10 +76,7 @@ export const GET = async ({ locals, request }) =>
 					body: { surveyData }
 				};
 			}
-			return {
-				status: 200,
-				body: {}
-			};
+			throw error(400, 'Could not GET Survey data');
 		}
 	);
 
@@ -89,9 +87,11 @@ export const POST = async ({ locals, request }) =>
 			user: locals.user
 		},
 		async () => {
-			const body = await request.formData();
+			const formData = await request.formData();
 			const bodyObject = setMissing(getFormBody(body));
-			const { data: surveyAnswers, error } = await supabaseServerClient(locals.accessToken)
+			const { data: surveyAnswers, error: surveyError } = await supabaseServerClient(
+				locals.accessToken
+			)
 				.from('profile')
 				.update({
 					first_name: bodyObject.first_name,
@@ -148,13 +148,10 @@ export const POST = async ({ locals, request }) =>
 					stay_in_touch_choices: setArray(bodyObject.stay_in_touch_choices),
 					other_comments: bodyObject.other_comments
 				})
-				.eq('id', locals.user.id);
-			if (error) {
-				console.log('update error profileCommunity:', error);
-				return {
-					status: 400,
-					body: { error }
-				};
+				.eq('id', session.user.id);
+			if (surveyError) {
+				console.log('update error profileCommunity:', surveyError);
+				throw error(400, surveyError.message);
 			}
 			return {
 				headers: { Location: '/profile' },

@@ -14,7 +14,8 @@
 		progressBar.skipTo(e);
 	};
 
-	export let surveyData;
+	export let data;
+	let surveyData = data;
 </script>
 
 <section class="mx-auto h-full w-full text-gray-900 bg-orange-300">

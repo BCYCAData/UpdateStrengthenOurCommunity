@@ -21,7 +21,13 @@
 		}
 	});
 
-	export let profileAboutMe;
+	/** @type {import('./$types').PageData} */
+	export let data;
+	$: ({ user, profileAboutMe } = data);
+
+	/** @type {import('./$types').ActionData} */
+	export let form;
+	console.log('form', form);
 
 	/**
 	 * Need to get the validAddress & searchAddress from the address challenge into a store
@@ -44,7 +50,6 @@
 			unsaved = true;
 		}}
 		class="flex flex-col py-3 mx-auto w-full text-orange-900 bg-orange-300"
-		action="/profile/aboutme"
 		method="POST"
 	>
 		<!-- first_name, family_name -->

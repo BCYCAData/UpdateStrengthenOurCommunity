@@ -19,7 +19,10 @@
 			modalVisible = !modalVisible;
 		}
 	});
-	export let profileResources;
+
+	export let data;
+	let profileResources = data;
+
 	let noneChecked = false;
 
 	let selectedStaticSources = new Set();

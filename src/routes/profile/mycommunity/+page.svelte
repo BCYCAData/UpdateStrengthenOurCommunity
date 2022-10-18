@@ -15,7 +15,9 @@
 			modalVisible = !modalVisible;
 		}
 	});
-	export let profileCommunity;
+
+	export let data;
+	let profileCommunity = data;
 	/**
 	 * Need to get the validAddress & searchAddress from the address challenge into a store
 	 * and validate this address OR populate the address

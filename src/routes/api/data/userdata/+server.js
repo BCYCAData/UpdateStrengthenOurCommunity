@@ -1,3 +1,4 @@
+import { json as json$1 } from '@sveltejs/kit';
 import { supabaseClient } from '$lib/dbClient';
 
 export async function POST({ request }) {
@@ -6,13 +7,11 @@ export async function POST({ request }) {
 	const { data: survey } = await supabaseClient.rpc('user_has_survey_results', {
 		email_input: user.email
 	});
-	return {
-		status: 200,
-		body: {
-			redirect: survey
-		},
+	return json$1({
+		redirect: survey
+	}, {
 		headers: {
 			'Content-Type': 'application/json'
 		}
-	};
+	});
 }

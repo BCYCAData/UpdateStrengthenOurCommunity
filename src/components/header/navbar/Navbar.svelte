@@ -1,6 +1,6 @@
 <script>
 	import Logo from '$components/header/logo/Logo.svelte';
-	import { page, session } from '$app/stores';
+	import { page } from '$app/stores';
 
 	let menuOpen = true;
 
@@ -16,7 +16,7 @@
 		<div class="hidden md:block">
 			<a
 				class:active={$page.url.pathname.endsWith('/')}
-				sveltekit:prefetch
+				data-sveltekit-prefetchprefetch
 				href="/"
 				class="p-2 text-stone-100 bg-[#0099E8] font-semibold rounded-xl outline-black"
 			>
@@ -24,7 +24,7 @@
 			</a>
 			<a
 				class:active={$page.url.pathname.endsWith('/about')}
-				sveltekit:prefetch
+				data-sveltekit-prefetchprefetch
 				href="/about"
 				class="p-2 text-stone-100 bg-[#0099E8] font-semibold rounded-xl outline-black"
 			>
@@ -32,7 +32,7 @@
 			</a>
 			<a
 				class:active={$page.url.pathname.endsWith('/contact')}
-				sveltekit:prefetch
+				data-sveltekit-prefetchprefetch
 				href="/contact"
 				class="p-2 text-stone-100 bg-[#0099E8] font-semibold rounded-xl outline-black"
 			>
@@ -43,8 +43,8 @@
 
 	<!-- Secondary Navbar items -->
 	<div class="md:flex items-center">
-		<div class="hidden md:block">
-			{#if $session?.user?.id}
+		<div class="hidden md:flex">
+			{#if $page?.data?.session?.user?.id}
 				<a
 					class:active={$page.url.pathname.includes('/profile')}
 					href="/profile"
@@ -52,17 +52,25 @@
 				>
 					Profile
 				</a>
-				<a
-					href="/api/auth/logout"
-					class="p-2 text-stone-100 bg-orange-500 font-semibold rounded-xl outline-black"
-				>
-					Sign Out
-				</a>
+				<form method="POST" action="/api/auth/signout">
+					<button
+						class="p-2 ml-2 text-stone-100 bg-orange-500 font-semibold rounded-xl outline-black hover:underline hover:border-none"
+						type="submit"
+					>
+						Sign Out
+					</button>
+				</form>
+				<!-- <a
+						href="/api/auth/signout"
+						class="p-2 text-stone-100 bg-orange-500 font-semibold rounded-xl outline-black"
+					>
+						Sign Out
+					</a> -->
 			{:else}
 				<a
 					class="p-2 text-stone-100 bg-orange-500 font-semibold rounded-xl outline-black"
 					class:active={$page.url.pathname.endsWith('/signin')}
-					sveltekit:prefetch
+					data-sveltekit-prefetchprefetch
 					href="/auth/signin"
 				>
 					Sign In
@@ -99,7 +107,7 @@
 				<a
 					on:click={handleNav}
 					class:active={$page.url.pathname.endsWith('/')}
-					sveltekit:prefetch
+					data-sveltekit-prefetchprefetch
 					href="/"
 					class="p-2 text-stone-100 bg-[#0099E8] font-semibold rounded-xl outline-black"
 				>
@@ -110,7 +118,7 @@
 				<a
 					on:click={handleNav}
 					class:active={$page.url.pathname.endsWith('/about')}
-					sveltekit:prefetch
+					data-sveltekit-prefetchprefetch
 					href="/about"
 					class="p-2 text-stone-100 bg-[#0099E8] font-semibold rounded-xl outline-black"
 				>
@@ -121,7 +129,7 @@
 				<a
 					on:click={handleNav}
 					class:active={$page.url.pathname.endsWith('/contact')}
-					sveltekit:prefetch
+					data-sveltekit-prefetchprefetch
 					href="/contact"
 					class="p-2 text-stone-100 bg-[#0099E8] font-semibold rounded-xl outline-black"
 				>
@@ -129,18 +137,27 @@
 				</a>
 			</li>
 			<li>
-				{#if $session?.user?.id}
-					<a
-						href="/api/auth/logout"
+				{#if $page?.data?.session?.user?.id}
+					<form method="POST" action="/api/auth/signout">
+						<button
+							id="signout"
+							class="p-2 ml-2 text-stone-100 bg-orange-500 font-semibold rounded-xl outline-black hover:underline hover:border-none"
+							type="submit"
+						>
+							Sign Out
+						</button>
+					</form>
+					<!-- <a
+						href="/api/auth/signout"
 						class="p-2 text-stone-100 bg-orange-500 font-semibold rounded-xl outline-black"
 					>
 						Sign Out
-					</a>
+					</a> -->
 				{:else}
 					<a
 						class:active={$page.url.pathname.endsWith('/signin')}
 						class="p-2 text-stone-100 bg-orange-500 font-semibold rounded-xl outline-black"
-						sveltekit:prefetch
+						data-sveltekit-prefetchprefetch
 						href="/auth/signin"
 					>
 						Sign In

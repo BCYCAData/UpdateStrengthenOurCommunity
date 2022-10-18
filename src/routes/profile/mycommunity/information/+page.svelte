@@ -17,7 +17,8 @@
 		}
 	});
 
-	export let profileInformation;
+	export let data;
+	let profileInformation = data;
 </script>
 
 {#if modalVisible}

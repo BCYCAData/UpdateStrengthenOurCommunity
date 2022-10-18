@@ -1,25 +1,24 @@
-import { supabaseServerClient, withApiAuth } from '@supabase/auth-helpers-sveltekit';
+import { getSupabase } from '@supabase/auth-helpers-sveltekit';
+import { error, redirect } from '@sveltejs/kit';
 
-export const GET = async ({ locals, request }) =>
+/** @type {import('./$types').PageServerLoad} */
+export const load = async ({ locals, request }) =>
 	withApiAuth(
 		{
 			redirectTo: '/auth/signin',
 			user: locals.user
 		},
 		async () => {
-			const { data: profileData, error } = await supabaseServerClient(request)
+			const { data: profileData, error: profileError } = await supabaseClient
 				.from('profile')
 				.select(
 					'static_water_available,have_stortz,stortz_size,fire_fighting_resources,fire_hazard_reduction'
 				)
-				.eq('id', locals.user.id);
+				.eq('id', session.user.id);
 
-			if (error) {
-				console.log('error profileResources:', error);
-				return {
-					status: 400,
-					body: { error }
-				};
+			if (profileError) {
+				console.log('error profileResources:', profileError);
+				throw error(400, profileError.message);
 			}
 			if (profileData.length === 1) {
 				let profileResources = profileData[0];
@@ -32,10 +31,7 @@ export const GET = async ({ locals, request }) =>
 				if (null == profileResources.fire_hazard_reduction) {
 					profileResources.fire_hazard_reduction = [];
 				}
-				return {
-					status: 200,
-					body: { profileResources }
-				};
+				return profileResources;
 			}
 			return {
 				status: 400,
@@ -43,6 +39,7 @@ export const GET = async ({ locals, request }) =>
 			};
 		}
 	);
+
 export const POST = async ({ locals, request }) =>
 	withApiAuth(
 		{
@@ -50,34 +47,28 @@ export const POST = async ({ locals, request }) =>
 			user: locals.user
 		},
 		async () => {
-			const body = await request.formData();
-			const { data: profileData, error } = await supabaseServerClient(request)
+			const formData = await request.formData();
+			const { data: profileData, error: profileError } = await supabaseClient
 				.from('profile')
 				.update({
 					static_water_available: body.getAll('static_water_available'),
-					have_stortz: body.get('have_stortz'),
-					stortz_size: parseInt(body.get('stortz_size')) || 0,
+					have_stortz: formData.get('have_stortz'),
+					stortz_size: parseInt(formData.get('stortz_size')) || 0,
 					fire_fighting_resources: body.getAll('fire_fighting_resources'),
 					fire_hazard_reduction: body.getAll('fire_hazard_reduction')
 				})
-				.eq('id', locals.user.id);
-			if (error) {
-				console.log('update error profileResources:', error);
-				return {
-					status: 400,
-					body: { error }
-				};
+				.eq('id', session.user.id);
+			if (profileError) {
+				console.log('update error profileResources:', profileError);
+				throw error(400, profileError.message);
 			}
-			if (profileData.length === 1) {
-				let profileResources = profileData[0];
-				return {
-					status: 200,
-					body: { profileResources }
-				};
-			}
-			return {
-				status: 400,
-				body: {}
-			};
+			// if (profileData.length === 1) {
+			// 	let profileResources = profileData[0];
+			// 	return {
+			// 		status: 200,
+			// 		body: { profileResources }
+			// 	};
+			// }
+			throw error(400, 'Could not POST Profile Resources data');
 		}
 	);

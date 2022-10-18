@@ -1,5 +1,6 @@
 <!-- <script>
-	export let profileComments;
+	export let data;
+	let profileComments = data;
 </script> -->
 
 <h1 class="p-1 text-center">

@@ -1,11 +1,7 @@
 <script>
-	import { page, session } from '$app/stores';
+	import { page } from '$app/stores';
 	import Icon from '@iconify/svelte';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
-	import { supabaseClient } from '$lib/dbClient';
-
-	console.log('user.id', $session?.user?.id);
-	// $: bcycadata = supabaseClient.auth.currentSession.user.user_metadata.bcycadata;
 </script>
 
 <div class="wrapper h-full grid bg-orange-100">
@@ -14,7 +10,6 @@
 	</header>
 	<section class="crumbs p-0 max-h-[35px] bg-stone-200">
 		<Breadcrumbs path={$page.url.pathname} />
-		<!-- {bcycadata} -->
 	</section>
 	<section class="content min-h-full text-orange-900 bg-orange-300">
 		<slot />

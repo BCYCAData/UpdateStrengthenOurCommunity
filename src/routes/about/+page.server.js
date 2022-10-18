@@ -1,17 +1,20 @@
 import { supabaseClient } from '$lib/dbClient';
+import { error, redirect, invalid } from '@sveltejs/kit';
 
 let mapData = { jsonLayers: [] };
 
-export const GET = async () => {
+/** @type {import('./$types').Actions} */
+export const actions = {
+	default: () => {}
+};
+
+export const load = async () => {
 	const { data: allPoints, error: errorAll } = await supabaseClient
 		.from('address_point_extract_wgs84')
 		.select('geom,addresspointtype');
 	if (errorAll) {
 		console.log('error get Addresspoints:', errorAll);
-		return {
-			status: 400,
-			body: { errorAll }
-		};
+		throw error(400, errorAll);
 	}
 	if (allPoints.length > 0) {
 		mapData.jsonLayers[0] = allPoints;
@@ -21,22 +24,13 @@ export const GET = async () => {
 	);
 	if (errorRegistered) {
 		console.log('error get registetred Addresspoints:', errorRegistered);
-		return {
-			status: 400,
-			body: { errorRegistered }
-		};
+		throw error(400, errorRegistered);
 	}
 	if (registeredPoints.length > 0) {
 		mapData.jsonLayers[1] = registeredPoints;
 	}
 	if (mapData.jsonLayers.length > 0) {
-		return {
-			status: 200,
-			body: { mapData }
-		};
+		return { mapData };
 	}
-	return {
-		status: 400,
-		body: {}
-	};
+	throw error(400, 'Something went wrong with the map');
 };

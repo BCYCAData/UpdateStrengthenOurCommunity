@@ -17,7 +17,13 @@
 		}
 	});
 
-	export let profileAssets;
+	/** @type {import('./$types').PageData} */
+	export let data;
+	$: ({ user, profileAssets } = data);
+	console.log(data);
+
+	// /** @type {import('./$types').ActionData} */
+	// export let form;
 </script>
 
 {#if modalVisible}

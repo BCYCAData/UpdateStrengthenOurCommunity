@@ -1,9 +1,16 @@
 <script>
+	// throw new Error(
+	// 	'@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)'
+	// );
+
 	import AuthErrorMessage from '$components/form/AuthErrorMessage.svelte';
 	import AuthSuccessMessage from '$components/form/AuthSuccessMessage.svelte';
 
-	export let successMessage = '';
-	export let errorMessage = '';
+	// export let successMessage = '';
+	// export let errorMessage = '';
+
+	/** @type {import('./$types').ActionData} */
+	export let form;
 
 	let heading = 'Please enter an Email Address';
 	let submitText = 'Set New Email';
@@ -44,11 +51,17 @@
 				{submitText}
 			</button>
 		</form>
-		{#if errorMessage !== ''}
+		<!-- {#if errorMessage !== ''}
 			<AuthErrorMessage message={errorMessage} />
+		{/if} -->
+		{#if form.error !== ''}
+			<AuthErrorMessage message={form.error} />
 		{/if}
-		{#if successMessage !== ''}
+		<!-- {#if successMessage !== ''}
 			<AuthSuccessMessage message={successMessage} />
+		{/if} -->
+		{#if form.sucess !== ''}
+			<AuthSuccessMessage message={form.sucess} />
 		{/if}
 	</div>
 </div>

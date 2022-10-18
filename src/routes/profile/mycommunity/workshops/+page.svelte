@@ -16,7 +16,8 @@
 		}
 	});
 
-	export let profileWorkshops;
+	export let data;
+	let profileWorkshops = data;
 </script>
 
 {#if modalVisible}
