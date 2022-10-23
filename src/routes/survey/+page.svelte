@@ -14,8 +14,9 @@
 		progressBar.skipTo(e);
 	};
 
+	/** @type {import('./$types').PageData} */
 	export let data;
-	let surveyData = data;
+	$: ({ user, surveyData } = data);
 </script>
 
 <section class="mx-auto h-full w-full text-gray-900 bg-orange-300">

@@ -1,33 +1,27 @@
-import { supabaseClient } from '$lib/dbClient';
-import { error, redirect, invalid } from '@sveltejs/kit';
+import { getSupabase } from '@supabase/auth-helpers-sveltekit';
 
 /** @type {import('./$types').Actions} */
 export const actions = {
-	default: () => {}
-};
-
-export const POST = async ({ locals, request }) => {
-	const formData = await request.formData();
-	supabaseClient.auth.setAuth(locals.accessToken);
-	let password = body.get('password');
-	const { error } = await supabaseClient.auth.update({
-		password: password
-	});
-	if (error) {
-		console.log('update password settings error:', error.message);
-		throw new Error(
-			'@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)'
-		);
+	default: async (event) => {
+		const { request } = event;
+		const { session, supabaseClient } = await getSupabase(event);
+		if (!session) {
+			throw error(403, { message: 'Unauthorized' });
+		}
+		const formData = await request.formData();
+		const { error } = await supabaseClient.auth.updateUser({
+			password: formData.get('password')
+		});
+		if (error) {
+			console.log('update password settings error:', error.message);
+			return {
+				errorMessage: error.message,
+				successMessage: ''
+			};
+		}
 		return {
-			status: 400,
-			body: { errorMessage: error.message }
+			errorMessage: '',
+			successMessage: 'Your password has been changed.'
 		};
 	}
-	throw new Error(
-		'@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)'
-	);
-	return {
-		status: 200,
-		body: { successMessage: 'Your password has been changed.' }
-	};
 };

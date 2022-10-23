@@ -1,30 +1,34 @@
-import { supabaseClient } from '$lib/dbClient';
-import { invalid } from '@sveltejs/kit';
+import { getSupabase } from '@supabase/auth-helpers-sveltekit';
 
 /** @type {import('./$types').Actions} */
 export const actions = {
-	default: async ({ request }) => {
-		const values = await request.formData();
-		const email = /** @type {string} */ (values.get('email'));
-		supabaseClient.auth.setAuth(locals.accessToken);
-		let message = `Your email change request has been received. Check for the confirmation email at ${locals.user.email}. `;
+	default: async (event) => {
+		const { request } = event;
+		const { session, supabaseClient } = await getSupabase(event);
+		if (!session) {
+			throw error(403, { message: 'Unauthorized' });
+		}
+		const formData = await request.formData();
+		const email = formData.get('email');
+		let message = `Your email change request has been received. Check for the confirmation email at ${session.user.email}. `;
 		message += '\r\n';
 		message += `You will then need to check for a second confirmation email at ${email}`;
-
-		const { error: supabaseError } = await supabaseClient.auth.update({
-			email: email
+		// const { error } = await supabaseClient.auth.updateUser({
+		// 	email: email
+		// });
+		const { error } = await supabaseClient.auth.updateUser({
+			email: 'email'
 		});
-		if (supabaseError) {
-			console.log('update email settings error:', supabaseError);
-			// throw new Error(
-			// 	'@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)'
-			// );
-			return invalid(400, { error: supabaseError.message });
+		if (error) {
+			console.log('update email settings error:', error);
+			return {
+				errorMessage: error.message,
+				successMessage: ''
+			};
 		}
-
-		// throw new Error(
-		// 	'@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)'
-		// );
-		return { success: message };
+		return {
+			errorMessage: '',
+			successMessage: message
+		};
 	}
 };

@@ -20,8 +20,12 @@
 		}
 	});
 
+	/** @type {import('./$types').PageData} */
 	export let data;
-	let profileResources = data;
+	$: ({ user, profileResources } = data);
+
+	// /** @type {import('./$types').ActionData} */
+	// export let form;
 
 	let noneChecked = false;
 
@@ -139,7 +143,6 @@
 					<input
 						on:change={() => {
 							profileResources.have_stortz = value;
-							console.log(value);
 						}}
 						name="have_stortz"
 						type="radio"
@@ -151,7 +154,6 @@
 			{/each}
 		</div>
 	</div>
-	{profileResources.have_stortz}
 	<!-- stortz_size -->
 	<div class:hidden={profileResources.have_stortz !== 'Y'}>
 		<div class="flex flex-row justify-start items-center px-4 mt-2">

@@ -34,6 +34,7 @@
 		"@fontsource/fira-mono": "^4.5.10",
 		"@supabase/auth-helpers-sveltekit": "^0.8.2",
 		"@supabase/supabase-js": "^2.0.0",
+		"jspdf": "^2.5.1",
 		"leaflet": "^1.9.2",
 		"ol": "^7.1.0"
 	}

@@ -1,11 +1,15 @@
 <script>
-	throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
-
 	import AuthErrorMessage from '$components/form/AuthErrorMessage.svelte';
 	import AuthSuccessMessage from '$components/form/AuthSuccessMessage.svelte';
 
-	export let successMessage = '';
-	export let errorMessage = '';
+	let successMessage = '';
+	let errorMessage = '';
+	/** @type {import('./$types').ActionData} */
+	export let form;
+	if (form) {
+		successMessage = form.successMessage;
+		errorMessage = form.errorMessage;
+	}
 
 	let strength = 0;
 	let validations = [];

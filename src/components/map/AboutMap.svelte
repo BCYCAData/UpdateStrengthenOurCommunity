@@ -1,5 +1,6 @@
 <script>
 	import MapLeaflet from '$components/map/leaflet/MapLeaflet.svelte';
+	import { env } from '$env/dynamic/public';
 
 	let mapObject = {
 		divId: 'basicMap',
@@ -14,7 +15,7 @@
 		dragging: false
 	};
 	let mapTileLayer = {
-		url: `https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=${import.meta.env.VITE_MAPTILER_KEY.toString()}`,
+		url: `https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=${env.PUBLIC_MAPTILER_KEY}`,
 		layerOptions: {
 			tileSize: 512,
 			zoomOffset: -1,

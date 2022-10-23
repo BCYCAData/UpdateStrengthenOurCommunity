@@ -48,7 +48,7 @@ export const resetProfile = async (survey, event) => {
 	if (!session) {
 		throw redirect(303, '/auth/signin');
 	}
-	const { error: errorProfileUpdate } = await supabaseClient(event)
+	const { error: profileErrorUpdate } = await supabaseClient(event)
 		.from('profile')
 		.update({
 			property_address_street: survey.property_address,
@@ -97,9 +97,9 @@ export const resetProfile = async (survey, event) => {
 			other_comments: survey.otherComments
 		})
 		.eq('id', session.user.id);
-	if (errorProfileUpdate) {
-		console.log('error Update Profile from Survey:', errorProfileUpdate);
-		throw error(400, errorProfileUpdate.message);
+	if (profileErrorUpdate) {
+		console.log('error Update Profile from Survey:', profileErrorUpdate);
+		throw error(400, profileErrorUpdate.message);
 	}
 	const { error: errorSurveyUpdate } = await supabaseClient(request)
 		.from('survey_responses')

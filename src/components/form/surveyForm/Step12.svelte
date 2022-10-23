@@ -1,3 +1,7 @@
+<script>
+	export let surveyData;
+</script>
+
 <div class="pt-5 lg:ml-10 lg:mr-10 md:ml-30 md:mr-30 lg:ml-50 lg:mr-50">
 	<h2 class="text-center sm:text-lg">Thank you for completing the questionnaire.</h2>
 	<p class="sm:text-lg">

@@ -19,7 +19,6 @@
 	/** @type {import('./$types').PageData} */
 	export let data;
 	$: ({ user, profileMyPlace } = data);
-	console.log(data);
 
 	// /** @type {import('./$types').ActionData} */
 	// export let form;
@@ -31,6 +30,12 @@
 	 */
 	const validateAddress = (e) => {
 		console.log('Validate address:  ', e.currentTarget.value);
+	};
+
+	const unSetAllRental = (e) => {
+		profileMyPlace.agent_name = null;
+		profileMyPlace.agent_mobile = null;
+		profileMyPlace.agent_phone = null;
 	};
 </script>
 
@@ -108,6 +113,9 @@
 						name="property_rented"
 						type="radio"
 						bind:group={profileMyPlace.property_rented}
+						on:change={(e) => {
+							unSetAllRental(e);
+						}}
 						{value}
 					/>
 					<label for="property_rented">{lable}</label>

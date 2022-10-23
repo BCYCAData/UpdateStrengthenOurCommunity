@@ -18,7 +18,7 @@ export const load = async (event) => {
 		throw error(400, profileError.message);
 	}
 	if (profileData.length === 1) {
-		let profileMyPlace = profileData[0];
+		const profileMyPlace = profileData[0];
 		return {
 			user: session.user,
 			profileMyPlace
@@ -56,15 +56,19 @@ export const actions = {
 				residents71_: parseInt(formData.get('residents71_') || 0),
 				vulnerable_residents: formData.get('vulnerable_residents')
 			})
-			.eq('id', session.user.id);
-		const profileMyPlace = profileData[0];
+			.eq('id', session.user.id)
+			.select();
 		if (profileError) {
 			console.log('update error profileMyPlace:', profileError);
 			throw error(400, profileError.message);
 		}
-		return {
-			user: session.user,
-			profileMyPlace: profileMyPlace
-		};
+		if (profileData.length === 1) {
+			const profileMyPlace = profileData[0];
+			return {
+				user: session.user,
+				profileMyPlace: profileMyPlace
+			};
+		}
+		throw error(400, 'Could not POST Profile My Place data');
 	}
 };

@@ -16,8 +16,12 @@
 		}
 	});
 
+	/** @type {import('./$types').PageData} */
 	export let data;
-	let profileWorkshops = data;
+	$: ({ user, profileWorkshops } = data);
+
+	// /** @type {import('./$types').ActionData} */
+	// export let form;
 </script>
 
 {#if modalVisible}

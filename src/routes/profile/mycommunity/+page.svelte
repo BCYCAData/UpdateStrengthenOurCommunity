@@ -16,8 +16,13 @@
 		}
 	});
 
+	/** @type {import('./$types').PageData} */
 	export let data;
-	let profileCommunity = data;
+	$: ({ user, profileCommunity } = data);
+
+	// /** @type {import('./$types').ActionData} */
+	// export let form;
+
 	/**
 	 * Need to get the validAddress & searchAddress from the address challenge into a store
 	 * and validate this address OR populate the address

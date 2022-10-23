@@ -17,7 +17,7 @@ export const load = async (event) => {
 		throw error(400, profileError.message);
 	}
 	if (profileData.length === 1) {
-		let profileAboutMe = profileData[0];
+		const profileAboutMe = profileData[0];
 		return {
 			user: session.user,
 			profileAboutMe
@@ -51,11 +51,11 @@ export const actions = {
 			})
 			.eq('id', session.user.id)
 			.select();
-		const profileAboutMe = profileData[0];
 		if (profileError) {
 			console.log('update error profileAboutMe:', profileError);
 			throw error(400, profileError.message);
 		}
+		const profileAboutMe = profileData[0];
 		return {
 			user: session.user,
 			profileAboutMe: profileAboutMe

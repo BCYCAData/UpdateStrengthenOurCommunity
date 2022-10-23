@@ -45,6 +45,15 @@
 	<div class="md:flex items-center">
 		<div class="hidden md:flex">
 			{#if $page?.data?.session?.user?.id}
+				{#if $page?.data?.session?.user?.user_metadata.bcycadata === 'admin'}
+					<a
+						class:active={$page.url.pathname.includes('/admin')}
+						href="/admin"
+						class="p-2 text-stone-100 bg-orange-500 font-semibold rounded-xl outline-black"
+					>
+						Administrator
+					</a>
+				{/if}
 				<a
 					class:active={$page.url.pathname.includes('/profile')}
 					href="/profile"
@@ -60,12 +69,6 @@
 						Sign Out
 					</button>
 				</form>
-				<!-- <a
-						href="/api/auth/signout"
-						class="p-2 text-stone-100 bg-orange-500 font-semibold rounded-xl outline-black"
-					>
-						Sign Out
-					</a> -->
 			{:else}
 				<a
 					class="p-2 text-stone-100 bg-orange-500 font-semibold rounded-xl outline-black"
@@ -147,12 +150,6 @@
 							Sign Out
 						</button>
 					</form>
-					<!-- <a
-						href="/api/auth/signout"
-						class="p-2 text-stone-100 bg-orange-500 font-semibold rounded-xl outline-black"
-					>
-						Sign Out
-					</a> -->
 				{:else}
 					<a
 						class:active={$page.url.pathname.endsWith('/signin')}
