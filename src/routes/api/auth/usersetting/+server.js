@@ -1,11 +1,12 @@
 import { json } from '@sveltejs/kit';
 import { supabaseClient } from '$lib/dbClient';
 
+/** @type {import('./$types').RequestHandler} */
 export const POST = async ({ locals, request }) => {
 	const formData = await request.formData();
 	supabaseClient.auth.setAuth(locals.accessToken);
-	let password = body.get('password');
-	let email = body.get('email');
+	let password = formData.get('password');
+	let email = formData.get('email');
 	if (password) {
 		const { error } = await supabaseClient.auth.update({
 			password: password
@@ -26,7 +27,7 @@ export const POST = async ({ locals, request }) => {
 			}
 		);
 	} else if (email) {
-		const { user, error } = await supabaseClient.auth.update({
+		const { error } = await supabaseClient.auth.update({
 			email: email
 		});
 		if (error) {

@@ -19,10 +19,7 @@
 
 	/** @type {import('./$types').PageData} */
 	export let data;
-	$: ({ user, profileAssets } = data);
-
-	// /** @type {import('./$types').ActionData} */
-	// export let form;
+	$: ({ profileAssets } = data);
 </script>
 
 {#if modalVisible}

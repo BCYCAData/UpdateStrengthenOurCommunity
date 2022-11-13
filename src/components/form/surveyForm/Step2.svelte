@@ -6,9 +6,10 @@
 	 * Need to get the validAddress & searchAddress from the address challenge into a store
 	 * and validate this address OR populate the address
 	 */
-	const validateAddress = (e) => {
-		console.log('Validate address:  ', e.currentTarget.value);
-	};
+	// const validateAddress = (e) => {
+	// 	console.log('Validate address:  ', e.currentTarget.value);
+	// };
+
 	export let surveyData;
 	let otherAccessChecked = surveyData.truck_access === 4 ? true : false;
 	let rentingChecked = surveyData.property_rented;
@@ -25,9 +26,6 @@
 			placeholder="First Name"
 			autocomplete="given-name"
 			style="text-transform:uppercase"
-			on:change={(e) => {
-				validateAddress(e);
-			}}
 			bind:value={surveyData.first_name}
 		/>
 		<input
@@ -38,9 +36,6 @@
 			placeholder="Family Name"
 			autocomplete="family_name"
 			style="text-transform:uppercase"
-			on:change={(e) => {
-				validateAddress(e);
-			}}
 			bind:value={surveyData.family_name}
 		/>
 	</div>
@@ -56,9 +51,6 @@
 		placeholder="Street Address"
 		autocomplete="street-address"
 		style="text-transform:uppercase"
-		on:change={(e) => {
-			validateAddress(e);
-		}}
 		bind:value={surveyData.property_address_street}
 	/>
 	<div class="flex flex-wrap w-full">
@@ -70,9 +62,6 @@
 			placeholder="Suburb"
 			autocomplete="address-level2"
 			style="text-transform:uppercase"
-			on:change={(e) => {
-				validateAddress(e);
-			}}
 			bind:value={surveyData.property_address_suburb}
 		/>
 		<input
@@ -83,9 +72,6 @@
 			placeholder="Postcode"
 			autocomplete="postal-code"
 			style="text-transform:uppercase"
-			on:change={(e) => {
-				validateAddress(e);
-			}}
 			bind:value={surveyData.property_address_postcode}
 		/>
 	</div>

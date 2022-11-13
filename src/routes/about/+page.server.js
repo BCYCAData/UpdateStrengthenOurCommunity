@@ -1,5 +1,5 @@
 import { supabaseClient } from '$lib/dbClient';
-import { error, redirect, invalid } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 
 let mapData = { jsonLayers: [] };
 

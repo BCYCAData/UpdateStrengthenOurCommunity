@@ -124,17 +124,3 @@ function setArray(value) {
 	result[0] = value;
 	return result;
 }
-
-function setSendRFSPlan(value) {
-	if (value === 'S') {
-		return true;
-	}
-	return false;
-}
-
-function setRFSPlan(value) {
-	if (value === 'Y') {
-		return true;
-	}
-	return false;
-}

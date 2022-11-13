@@ -18,18 +18,15 @@
 
 	/** @type {import('./$types').PageData} */
 	export let data;
-	$: ({ user, profileCommunity } = data);
-
-	// /** @type {import('./$types').ActionData} */
-	// export let form;
+	$: ({ profileCommunity } = data);
 
 	/**
 	 * Need to get the validAddress & searchAddress from the address challenge into a store
 	 * and validate this address OR populate the address
 	 */
-	const validateAddress = (e) => {
-		console.log('Validate address:  ', e.currentTarget.value);
-	};
+	// const validateAddress = (e) => {
+	// 	console.log('Validate address:  ', e.currentTarget.value);
+	// };
 </script>
 
 {#if modalVisible}
@@ -82,9 +79,6 @@
 					placeholder="Street Address"
 					autocomplete="street-address"
 					style="text-transform:uppercase sm:text-lg"
-					on:change={(e) => {
-						validateAddress(e);
-					}}
 					bind:value={profileCommunity.postal_address_street}
 				/>
 			</div>
@@ -99,9 +93,6 @@
 					placeholder="Suburb"
 					autocomplete=""
 					style="text-transform:uppercase sm:text-lg"
-					on:change={(e) => {
-						validateAddress(e);
-					}}
 					bind:value={profileCommunity.postal_address_suburb}
 				/>
 			</div>
@@ -115,9 +106,6 @@
 					class="border w-full border-orange-700 rounded bg-orange-50 py-1 sm:text-lg"
 					placeholder="Postcode"
 					autocomplete=""
-					on:change={(e) => {
-						validateAddress(e);
-					}}
 					bind:value={profileCommunity.postal_address_postcode}
 				/>
 			</div>

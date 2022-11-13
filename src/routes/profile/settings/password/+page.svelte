@@ -46,7 +46,7 @@
 		strength = validations.reduce((acc, cur) => acc + cur, 0);
 	}
 
-	function togglePassword(node, showPassword) {
+	function togglePassword(node) {
 		return {
 			update(showPassword) {
 				if (showPassword) {

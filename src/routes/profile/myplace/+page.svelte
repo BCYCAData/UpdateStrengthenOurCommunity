@@ -18,21 +18,17 @@
 
 	/** @type {import('./$types').PageData} */
 	export let data;
-	$: ({ user, profileMyPlace } = data);
-
-	// /** @type {import('./$types').ActionData} */
-	// export let form;
-	// console.log('form', form);
+	$: ({ profileMyPlace } = data);
 
 	/**
 	 * Need to get the validAddress & searchAddress from the address challenge into a store
 	 * and validate this address OR populate the address
 	 */
-	const validateAddress = (e) => {
-		console.log('Validate address:  ', e.currentTarget.value);
-	};
+	// const validateAddress = (e) => {
+	// 	console.log('Validate address:  ', e.currentTarget.value);
+	// };
 
-	const unSetAllRental = (e) => {
+	const unSetAllRental = () => {
 		profileMyPlace.agent_name = null;
 		profileMyPlace.agent_mobile = null;
 		profileMyPlace.agent_phone = null;
@@ -64,9 +60,6 @@
 				placeholder="Street Address"
 				autocomplete="street-address"
 				style="text-transform:uppercase sm:text-lg"
-				on:change={(e) => {
-					validateAddress(e);
-				}}
 				bind:value={profileMyPlace.property_address_street}
 			/>
 		</div>
@@ -79,9 +72,6 @@
 				placeholder="Suburb"
 				autocomplete="address-level2"
 				style="text-transform:uppercase sm:text-lg"
-				on:change={(e) => {
-					validateAddress(e);
-				}}
 				bind:value={profileMyPlace.property_address_suburb}
 			/>
 		</div>
@@ -93,9 +83,6 @@
 				class="border w-full border-orange-700 rounded bg-orange-50 py-1 sm:text-lg"
 				placeholder="Postcode"
 				autocomplete="postal-code"
-				on:change={(e) => {
-					validateAddress(e);
-				}}
 				bind:value={profileMyPlace.property_address_postcode}
 			/>
 		</div>
@@ -113,8 +100,8 @@
 						name="property_rented"
 						type="radio"
 						bind:group={profileMyPlace.property_rented}
-						on:change={(e) => {
-							unSetAllRental(e);
+						on:change={() => {
+							unSetAllRental();
 						}}
 						{value}
 					/>

@@ -12,8 +12,8 @@ export async function load({ locals }) {
 /** @type {import('./$types').Actions} */
 export const actions = {
 	default: async (event) => {
-		const { request, cookies, url } = event;
-		const { session, supabaseClient } = await getSupabase(event);
+		const { request } = event;
+		const { supabaseClient } = await getSupabase(event);
 		const formData = await request.formData();
 		const email = formData.get('email');
 		const password = formData.get('password');

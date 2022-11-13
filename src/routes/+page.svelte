@@ -1,11 +1,9 @@
 <script>
-	import { page } from '$app/stores';
+	// import { page } from '$app/stores';
 	import Modal from '$components/Modal.svelte';
 	import AddressChallenge from '$components/form/addressChallenge/AddressChallenge.svelte';
 
 	let modalVisible = false;
-
-	const url = $page.url;
 </script>
 
 <svelte:head>

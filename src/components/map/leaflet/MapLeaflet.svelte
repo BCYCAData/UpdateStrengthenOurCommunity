@@ -31,7 +31,7 @@
 			let g = mapData.jsonLayers[0];
 			for (let j = 0; j < g.length; j++) {
 				let p = g[j].geom.coordinates;
-				let n = g[j].addresspointtype;
+				// let n = g[j].addresspointtype;
 				let lon = p[0];
 				let lat = p[1];
 				let markerLocation = new leaflet.LatLng(lat, lon, 0);
@@ -45,7 +45,7 @@
 			g = mapData.jsonLayers[1];
 			for (let j = 0; j < g.length; j++) {
 				let p = g[j].geom.coordinates;
-				let n = g[j].addresspointtype;
+				// let n = g[j].addresspointtype;
 				let lon = p[0];
 				let lat = p[1];
 				let markerLocation = new leaflet.LatLng(lat, lon, 0);

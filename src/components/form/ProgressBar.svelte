@@ -58,6 +58,9 @@
 			on:click={(e) => {
 				skipTo(e);
 			}}
+			on:keypress={(e) => {
+				skipTo(e);
+			}}
 		>
 			.
 		</div>

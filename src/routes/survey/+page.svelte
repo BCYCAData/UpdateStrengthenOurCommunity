@@ -16,7 +16,7 @@
 
 	/** @type {import('./$types').PageData} */
 	export let data;
-	$: ({ user, surveyData } = data);
+	$: ({ surveyData } = data);
 </script>
 
 <section class="mx-auto h-full w-full text-gray-900 bg-orange-300">

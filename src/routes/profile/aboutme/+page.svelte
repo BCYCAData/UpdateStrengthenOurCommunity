@@ -23,19 +23,15 @@
 
 	/** @type {import('./$types').PageData} */
 	export let data;
-	$: ({ user, profileAboutMe } = data);
-
-	/** @type {import('./$types').ActionData} */
-	export let form;
-	console.log('form', form);
+	$: ({ profileAboutMe } = data);
 
 	/**
 	 * Need to get the validAddress & searchAddress from the address challenge into a store
 	 * and validate this address OR populate the address
 	 */
-	const validateAddress = (e) => {
-		// console.log('Validate address: ', e.currentTarget.value);
-	};
+	// const validateAddress = (e) => {
+	// 	// console.log('Validate address: ', e.currentTarget.value);
+	// };
 </script>
 
 <section class="min-h-full bg-orange-300">

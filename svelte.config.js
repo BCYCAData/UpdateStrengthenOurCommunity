@@ -24,9 +24,13 @@ const config = {
 		}
 	},
 	vitePlugin: {
+		emitCss: false,
 		experimental: {
 			inspector: true
 		}
+	},
+	compilerOptions: {
+		css: 'injected'
 	}
 };
 

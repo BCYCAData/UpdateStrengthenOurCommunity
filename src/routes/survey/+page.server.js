@@ -8,9 +8,17 @@ export const load = async (event) => {
 	if (!session) {
 		throw redirect(303, '/auth/signin');
 	}
-	const { data: survey, error: surveyError } = await supabaseClient.rpc('user_has_survey_results', {
-		email_input: session.user.email
-	});
+	const { data: survey, error: errorHasSurvey } = await supabaseClient.rpc(
+		'user_has_survey_results',
+		{
+			email_input: session.user.email
+		}
+	);
+	if (errorHasSurvey) {
+		console.log('error Get Survey:', errorHasSurvey);
+		let message = errorHasSurvey.message;
+		throw error(400, message);
+	}
 	if (survey) {
 		const { data: survey, error: errorSurvey } = await supabaseClient
 			.from('survey_responses')
@@ -79,7 +87,7 @@ export const actions = {
 		}
 		const formData = await request.formData();
 		const bodyObject = setMissing(getFormBody(formData));
-		const { data: surveyAnswers, error: surveyError } = await supabaseClient
+		const { error: surveyError } = await supabaseClient
 			.from('profile')
 			.update({
 				first_name: bodyObject.first_name,
@@ -136,17 +144,11 @@ export const actions = {
 				stay_in_touch_choices: setArray(bodyObject.stay_in_touch_choices),
 				other_comments: bodyObject.other_comments
 			})
-			.eq('id', session.user.id)
-			.select();
+			.eq('id', session.user.id);
 		if (surveyError) {
 			console.log('update error surveyAnswers:', surveyError);
 			throw error(400, surveyError.message);
 		}
-		// return {
-		// 	headers: { Location: '/profile' },
-		// 	status: 302,
-		// 	body: { surveyAnswers }
-		// };
 		throw redirect(303, '/profile');
 	}
 };

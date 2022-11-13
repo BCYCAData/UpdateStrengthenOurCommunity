@@ -38,7 +38,7 @@ export const actions = {
 			}
 		);
 		if (streetError) {
-			console.log('update error streetData:', streetError);
+			console.log('get error streetData:', streetError);
 			throw error(400, streetError.message);
 		}
 		if (streetData.length === 1) {

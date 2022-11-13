@@ -22,10 +22,7 @@
 
 	/** @type {import('./$types').PageData} */
 	export let data;
-	$: ({ user, profileResources } = data);
-
-	// /** @type {import('./$types').ActionData} */
-	// export let form;
+	$: ({ profileResources } = data);
 
 	let noneChecked = false;
 
@@ -65,32 +62,6 @@
 	action="/profile/myplace/resources"
 	method="POST"
 >
-	<!-- <div class="flex flex-row">
-			<div class="w-1/2" />
-			<button
-				class="w-1/4 mx-3 mb-3 rounded-lg text-base font-semibold bg-[#0099E8] text-stone-100 border border-purple-700"
-				on:click={() => {
-					unsaved = false;
-				}}
-				hidden={!unsaved}
-				type="submit"
-				form="profileResourcesForm"
-			>
-				Save My Answers
-			</button>
-			<button
-				class="w-1/4 mx-auto mb-3 rounded-lg text-base font-semibold bg-[#27C7BD] text-stone-100 border border-purple-700"
-				on:click={() => {
-					unsaved = false;
-					location.reload();
-				}}
-				hidden={!unsaved}
-				type="button"
-			>
-				Cancel
-			</button>
-		</div> -->
-
 	<!-- static_water_available -->
 	<div class="flex flex-row justify-between items-center px-4 mt-2">
 		<label class="tracking-wide mr-4 mt-1 text-lg font-bold mb-1" for="static_water_available_list">

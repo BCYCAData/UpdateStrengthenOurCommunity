@@ -1,11 +1,10 @@
 <script>
 	import StreetSelectInput from '$components/form/inputs/StreetSelectInput.svelte';
 	import { jsPDF } from 'jspdf';
-	import socLogo from '$components/SOCLogo.png';
 
 	/** @type {import('./$types').PageData} */
 	export let data;
-	$: ({ user, streetList } = data);
+	$: ({ streetList } = data);
 
 	export let selectedStreet = '';
 
@@ -13,10 +12,6 @@
 	export let form;
 	let reportStreet = form?.reportStreet ?? '';
 	let streetData = form?.streetData ?? undefined;
-
-	// $: ({ streetData, reportStreet } = form);
-	// export let streetData;
-	// export let reportStreet;
 
 	let classText =
 		'class="border mt-3 w-full border-orange-700 rounded bg-orange-50 py-1 sm:text-lg"';
