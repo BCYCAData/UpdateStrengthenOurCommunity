@@ -4,8 +4,6 @@
 	import AddressChallenge from '$components/form/addressChallenge/AddressChallenge.svelte';
 	import { env } from '$env/dynamic/public';
 
-	console.log('env', env);
-
 	let modalVisible = false;
 </script>
 
@@ -45,4 +43,5 @@
 	</button>
 	<p class="text-sm md:text-lg mt-1 font-semibold">Want more information?</p>
 	<p class="text-sm md:text-lg mt-0 font-semibold">Call Helen 0424 515 963</p>
+	<p>{env.PUBLIC_SUPABASE_URL}</p>
 </section>
