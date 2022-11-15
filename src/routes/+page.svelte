@@ -2,6 +2,9 @@
 	// import { page } from '$app/stores';
 	import Modal from '$components/Modal.svelte';
 	import AddressChallenge from '$components/form/addressChallenge/AddressChallenge.svelte';
+	import { env } from '$env/dynamic/public';
+
+	console.log('env', env);
 
 	let modalVisible = false;
 </script>
