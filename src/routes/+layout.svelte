@@ -14,6 +14,7 @@
 	let showFooter = true;
 
 	onMount(() => {
+		console.log(supabaseClient);
 		const {
 			data: { subscription }
 		} = supabaseClient.auth.onAuthStateChange(() => {
