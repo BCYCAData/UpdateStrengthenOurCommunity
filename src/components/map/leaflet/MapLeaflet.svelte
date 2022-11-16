@@ -74,4 +74,11 @@
 	});
 </script>
 
-<div class="flex-initial w-full h-full z-0" id={mapObject.divId} />
+<div class="flex-initial w-full h-full z-0" id={mapObject.divId}>
+	{#if mapObject.mapTiler}
+		<a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;">
+			<img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo" />
+		</a>
+	{/if}
+</div>
+<div>{mapObject.mapTiler}</div>

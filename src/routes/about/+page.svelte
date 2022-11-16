@@ -33,7 +33,8 @@
 			</li>
 			<li class="m-1">
 				<span class="font-semibold">Digital Online Mapping</span>
-				- this website. A digital representation of our local information, that we own and update.
+				- this website. A digital representation of our local information, that we individually own and
+				update.
 			</li>
 			<li class="m-1">
 				<span class="font-semibold">Workshops</span>

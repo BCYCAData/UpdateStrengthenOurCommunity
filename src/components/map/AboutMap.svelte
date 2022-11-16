@@ -12,7 +12,8 @@
 		minZoom: 11.6,
 		maxZoom: 11.5,
 		maxBounds: null,
-		dragging: false
+		dragging: false,
+		mapTiler: true
 	};
 	let mapTileLayer = {
 		url: `https://api.maptiler.com/maps/basic-v2/{z}/{x}/{y}.png?key=${env.PUBLIC_MAPTILER_KEY}`,
