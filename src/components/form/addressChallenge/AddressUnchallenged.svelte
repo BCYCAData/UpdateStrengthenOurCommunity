@@ -13,6 +13,7 @@
 	let loading = false;
 	let streetaddress = '';
 	let suburb = '';
+	let retry = '';
 
 	let canGo = false;
 	$: canGo = validateAddress(streetaddress);
@@ -70,6 +71,7 @@
 			}
 		} catch (error) {
 			// status = 'failedToFetch';
+			console.log(error);
 			status = 418;
 		}
 		loading = !loading;

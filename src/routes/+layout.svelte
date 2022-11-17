@@ -14,7 +14,6 @@
 	let showFooter = true;
 
 	onMount(() => {
-		console.log(supabaseClient);
 		const {
 			data: { subscription }
 		} = supabaseClient.auth.onAuthStateChange(() => {
@@ -25,14 +24,8 @@
 			subscription.unsubscribe();
 		};
 	});
-
-	// startSupabaseSessionSync({
-	// 	page,
-	// 	handleRefresh: () => invalidateAll()
-	// });
 </script>
 
-<!-- <SupaAuthHelper {supabaseClient} {session}> -->
 <div class="grid w-11/12 mx-auto min-h-screen" id="wrapper">
 	<header class="col-span-8 row-span-1">
 		<Navbar />
@@ -87,7 +80,6 @@
 	{/if}
 </div>
 
-<!-- </SupaAuthHelper> -->
 <style>
 	#wrapper {
 		grid-template-rows: auto 1fr auto;
