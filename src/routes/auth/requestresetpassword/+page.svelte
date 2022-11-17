@@ -18,14 +18,10 @@
 	async function resetPassword() {
 		waiting = true;
 		canGo = false;
-		console.log('supabaseRedirectBase', supabaseRedirectBase);
-		console.log('supabaseClient', supabaseClient.auth);
-		console.log('supabaseClient', supabaseClient.auth);
-		console.log('supabaseClient', supabaseClient.auth.api);
 		// const { error } = await supabaseClient.auth.api.resetPasswordForEmail(email, {
 		// 	redirectTo: `${supabaseRedirectBase}/auth/redirect`
 		// });
-		const { error } = await supabaseClient.auth.api.resetPasswordForEmail(email, {
+		const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
 			redirectTo: `${supabaseRedirectBase}/auth/redirect`
 		});
 		if (error) {
