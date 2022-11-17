@@ -19,6 +19,10 @@
 		waiting = true;
 		canGo = false;
 		console.log('supabaseRedirectBase', supabaseRedirectBase);
+		console.log('supabaseClient', supabaseClient);
+		// const { error } = await supabaseClient.auth.api.resetPasswordForEmail(email, {
+		// 	redirectTo: `${supabaseRedirectBase}/auth/redirect`
+		// });
 		const { error } = await supabaseClient.auth.api.resetPasswordForEmail(email, {
 			redirectTo: `${supabaseRedirectBase}/auth/redirect`
 		});
