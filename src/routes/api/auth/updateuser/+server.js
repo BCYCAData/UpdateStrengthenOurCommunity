@@ -1,9 +1,13 @@
 import { json } from '@sveltejs/kit';
+import { getSupabase } from '@supabase/auth-helpers-sveltekit';
 import { supabaseClient } from '$lib/dbClient';
+import { getServerSession } from '@supabase/auth-helpers-sveltekit';
 
 // export const POST = async ({ request }) => {
 export const POST = async ({ locals, request }) => {
+	console.log('locals', locals);
 	const formData = await request.formData();
+	// const session = await getServerSession(event);
 	const { error } = await supabaseClient.auth.updateUser(formData.get('token'), {
 		password: formData.get('password')
 	});
