@@ -20,10 +20,3 @@
 		</option>
 	{/each}
 </select>
-<!-- <select bind:value={selectedStreet} on:change={() => (answer = '')}>
-	{#each streetList as street}
-		<option value={street}>
-			{street}
-		</option>
-	{/each}
-</select> -->

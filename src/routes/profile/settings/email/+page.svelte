@@ -57,14 +57,8 @@
 		{#if errorMessage !== ''}
 			<AuthErrorMessage message={errorMessage} />
 		{/if}
-		<!-- {#if form.error !== ''}
-			<AuthErrorMessage message={errorMessage} />
-		{/if} -->
 		{#if successMessage !== ''}
 			<AuthSuccessMessage message={successMessage} />
 		{/if}
-		<!-- {#if form.sucess !== ''}
-			<AuthSuccessMessage message={successMessage} />
-		{/if} -->
 	</div>
 </div>

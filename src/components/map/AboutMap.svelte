@@ -41,7 +41,6 @@
 {:then mapData}
 	<div class="flex flex-1  border-double border-stone-100">
 		<MapLeaflet {mapObject} {mapTileLayer} {mapData} />
-		<!-- <MaplibreGlMap /> -->
 	</div>
 {:catch error}
 	<p style="color: red">{error.message}</p>

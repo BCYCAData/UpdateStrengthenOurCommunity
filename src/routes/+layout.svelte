@@ -1,7 +1,6 @@
 <script>
 	import { page } from '$app/stores';
 	import { supabaseClient } from '$lib/dbClient';
-	// import { startSupabaseSessionSync } from '@supabase/auth-helpers-sveltekit';
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 

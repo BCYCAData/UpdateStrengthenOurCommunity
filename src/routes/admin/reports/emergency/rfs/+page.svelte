@@ -668,7 +668,6 @@
 		<p class="mb-0">
 			This report lists the following information for all registered Users in a given street.
 		</p>
-		<!-- <label class="text-lg font-bold mb-1" for="property_address_street">Street</label> -->
 		<StreetSelectInput {streetList} {nameText} {requiredText} {classText} bind:selectedStreet />
 		<button
 			class="w-1/4 m-3 rounded-lg text-base font-semibold bg-[#0099E8] text-stone-100 border border-purple-700"

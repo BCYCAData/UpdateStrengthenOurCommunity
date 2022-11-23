@@ -1,6 +1,6 @@
 <script>
 	export let redirectType;
-	export let accessToken;
+	// export let accessToken;
 
 	let strength = 0;
 	let validations = [];
@@ -39,7 +39,7 @@
 			passwordValue.length > 8,
 			passwordValue.search(/[A-Z]/) > -1,
 			passwordValue.search(/[0-9]/) > -1,
-			passwordValue.search(/[?~!@#%^&$&*()_+-=,:;=|]/) > -1,
+			passwordValue.search(/[?~!@#%^&$&*()_+-=,:;|]/) > -1,
 			passwordValue === password
 		];
 		strength = validations.reduce((acc, cur) => acc + cur, 0);
@@ -73,7 +73,6 @@
 					on:mouseleave={() => (showPassword = false)}
 				>
 					{showPassword ? '👁️' : '👁️'}
-					<!-- {showPassword ? '🙈' : '🐵'} -->
 				</span>
 			</label>
 			<input
@@ -99,7 +98,6 @@
 					on:mouseleave={() => (showPassword = false)}
 				>
 					{showPassword ? '👁️' : '👁️'}
-					<!-- {showPassword ? '🙈' : '🐵'} -->
 				</span>
 			</label>
 
@@ -138,7 +136,7 @@
 				</li>
 				<li class="pl-4">
 					<span class="text-[10px]">{validations[3] ? '✔️' : '❌'}</span>
-					<span class="text-sm">at least 1 symbol (?~!@#%^&$&*_+-=,:;=|)</span>
+					<span class="text-sm">at least 1 symbol (?~!@#%^&$&*()_+-=,:;|)</span>
 				</li>
 				<li class="pl-4">
 					<span class="text-[10px]">{validations[4] ? '✔️' : '❌'}</span>
@@ -147,8 +145,6 @@
 			</ul>
 
 			<input type="hidden" id="mode" name="mode" value={redirectType} />
-			<input type="hidden" id="token" name="token" value={accessToken} />
-			<!-- <input type="hidden" id="url" name="url" value={url} /> -->
 			<button
 				type="submit"
 				class="w-full text-center py-3 rounded-full bg-orange-500 text-stone-100 hover:bg-orange-700 focus:outline-none my-1 disabled:opacity-25"

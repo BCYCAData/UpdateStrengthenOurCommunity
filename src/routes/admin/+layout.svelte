@@ -46,64 +46,6 @@
 						</ul>
 					</ul>
 				</li>
-				<!-- <li class="sm:mt-2 hover:bg-orange-300 rounded items-center">
-					<div class="flex flex-row items-center justify-start">
-						<a href="/admin/myplace">
-							<Icon class="text-stone-50" icon="carbon:location" style="font-size: 24px" />
-						</a>
-						<a class="hidden mx-2 font-semibold sm:inline" href="/admin/myplace">My Place</a>
-					</div>
-					<ul class="list-none bg-orange-600">
-						<li class="hover:bg-orange-300 rounded mt-1">
-							<a href="/admin/myplace/assets">Assets</a>
-						</li>
-						<li class="hover:bg-orange-300 rounded mt-1">
-							<a href="/admin/myplace/resources">Firefighting Resources</a>
-						</li>
-						<li class="hover:bg-orange-300 rounded mt-1">
-							<a href="/admin/myplace/hazards">Firefighting Hazards</a>
-						</li>
-					</ul>
-				</li>
-
-				<li class="sm:mt-2 hover:bg-orange-300 rounded items-center">
-					<div class="flex flex-row items-center justify-start">
-						<a class="flex items-center" href="/admin/mycommunity">
-							<Icon icon="carbon:group" style="font-size: 24px" />
-							<span class="hidden px-2 mt-1 font-semibold sm:inline">My Community</span>
-						</a>
-					</div>
-					<ul class="list-none bg-orange-600">
-						<li class="hover:bg-orange-300 rounded mt-1">
-							<a href="/admin/mycommunity/information">Information</a>
-						</li>
-						<li class="hover:bg-orange-300 rounded mt-1">
-							<a href="/admin/mycommunity/workshops">Workshops</a>
-						</li>
-						<li class="hover:bg-orange-300 rounded mt-1">
-							<a href="/admin/mycommunity/events">Events</a>
-						</li>
-						<li class="hover:bg-orange-300 rounded mt-1">
-							<a href="/profile/mycommunity/map">Community Map</a>
-						</li>
-					</ul>
-				</li>
-				<li class="sm:mt-2 hover:bg-orange-300 rounded items-center">
-					<div class="flex flex-row items-center justify-start">
-						<a class="flex items-center" href="/profile/settings">
-							<Icon icon="carbon:settings" style="font-size: 24px" />
-							<span class="hidden px-2 mt-1 font-semibold sm:inline">Settings</span>
-						</a>
-					</div>
-					<ul class="list-none bg-orange-600">
-						<li class="hover:bg-orange-300 rounded mt-1">
-							<a href="/admin/settings/password">Change Password</a>
-						</li>
-						<li class="hover:bg-orange-300 rounded mt-1">
-							<a href="/admin/settings/email">Change Email</a>
-						</li>
-					</ul>
-				</li> -->
 			</ul>
 		</div>
 		<p class="ml-2 ">

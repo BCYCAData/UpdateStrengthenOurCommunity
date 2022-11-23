@@ -40,7 +40,7 @@
 			passwordValue.length > 8,
 			passwordValue.search(/[A-Z]/) > -1,
 			passwordValue.search(/[0-9]/) > -1,
-			passwordValue.search(/[?~!@#%^&$&*()_+-=,:;=|]/) > -1,
+			passwordValue.search(/[?~!@#%^&$&*()_+-=,:;|]/) > -1,
 			passwordValue === password
 		];
 		strength = validations.reduce((acc, cur) => acc + cur, 0);
@@ -74,7 +74,6 @@
 					on:mouseleave={() => (showPassword = false)}
 				>
 					{showPassword ? '👁️' : '👁️'}
-					<!-- {showPassword ? '🙈' : '🐵'} -->
 				</span>
 			</label>
 			<input
@@ -100,7 +99,6 @@
 					on:mouseleave={() => (showPassword = false)}
 				>
 					{showPassword ? '👁️' : '👁️'}
-					<!-- {showPassword ? '🙈' : '🐵'} -->
 				</span>
 			</label>
 
@@ -139,7 +137,7 @@
 				</li>
 				<li class="pl-4">
 					<span class="text-[10px]">{validations[3] ? '✔️' : '❌'}</span>
-					<span class="text-sm">at least 1 symbol (?~!@#%^&$&*_+-=,:;=|)</span>
+					<span class="text-sm">at least 1 symbol (?~!@#%^&$&*()_+-=,:;|)</span>
 				</li>
 				<li class="pl-4">
 					<span class="text-[10px]">{validations[4] ? '✔️' : '❌'}</span>

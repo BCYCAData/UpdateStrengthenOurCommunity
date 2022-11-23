@@ -2,7 +2,6 @@
 	import AboutMap from '$components/map/AboutMap.svelte';
 </script>
 
-<!-- <AboutMap /> -->
 <h2>Thank you for being part of our trial group.</h2>
 <h2>
 	Excitingly, we are now able to invite you to register for the <span style="color:#ea580c;">
@@ -21,10 +20,7 @@
 		<b>link below:</b>
 	</b>
 </p>
-<!-- <p><a href="{{ .ConfirmationURL }}">Accept the invite</a></p> -->
-
 <p>This link will expire after 24 hours</p>
-
 <p>
 	Once you have logged in please go through the Profile menu and check that the information you
 	entered on your survey has been uploaded.

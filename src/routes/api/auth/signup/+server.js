@@ -7,29 +7,19 @@ export const POST = async ({ request }) => {
 	let email = formData.get('email');
 	let gid = formData.get('gid');
 	let oid = formData.get('oid');
-	const { error: errorSignUp } = await supabaseClient.auth.signUp(
-		{
-			email: email,
-			password: password
-		},
-		{
+	const { error: errorSignUp } = await supabaseClient.auth.signUp({
+		email: email,
+		password: password,
+		options: {
 			data: {
 				gurasid: parseInt(gid),
 				principaladdresssiteoid: parseInt(oid)
-			}
-		},
-		{
-			redirectTo: `${supabaseRedirectBase}/auth/redirect`
+			},
+			emailRedirectTo: `${supabaseRedirectBase}/auth/redirect`
 		}
-	);
+	});
 	if (errorSignUp) {
-		console.log('signup error:', errorSignUp);
-		return json(
-			{ errorSignUp },
-			{
-				status: 400
-			}
-		);
+		throw error(400, errorSignUp.message);
 	}
 	return new Response(undefined, { status: 302, headers: { Location: '/auth/redirect' } });
 };

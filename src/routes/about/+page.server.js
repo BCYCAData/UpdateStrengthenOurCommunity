@@ -3,11 +3,6 @@ import { error } from '@sveltejs/kit';
 
 let mapData = { jsonLayers: [] };
 
-/** @type {import('./$types').Actions} */
-export const actions = {
-	default: () => {}
-};
-
 export const load = async () => {
 	const { data: allPoints, error: errorAll } = await supabaseClient
 		.from('address_point_extract_wgs84')

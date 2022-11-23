@@ -1,24 +1,19 @@
-import { json } from '@sveltejs/kit';
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
-import { supabaseClient } from '$lib/dbClient';
-import { getServerSession } from '@supabase/auth-helpers-sveltekit';
+import { error } from '@sveltejs/kit';
 
-// export const POST = async ({ request }) => {
-export const POST = async ({ locals, request }) => {
-	console.log('locals', locals);
-	const formData = await request.formData();
-	// const session = await getServerSession(event);
-	const { error } = await supabaseClient.auth.updateUser(formData.get('token'), {
+/** @type {import('./$types').RequestHandler} */
+export const POST = async (event) => {
+	const { session, supabaseClient } = await getSupabase(event);
+	if (!session) {
+		throw error(401, { message: 'Invalid email address' });
+	}
+	const formData = await event.request.formData();
+	const { error: supabaseError } = await supabaseClient.auth.updateUser({
 		password: formData.get('password')
 	});
-	if (error) {
-		console.log('update user error:', error);
-		return json(
-			{ error },
-			{
-				status: 400
-			}
-		);
+	if (supabaseError) {
+		console.log('update user error:', supabaseError.message);
+		throw error(401, { message: supabaseError.message });
 	}
 	if (formData.get('mode') === 'invite') {
 		const { data: addressData, error: addressError } = await supabaseClient.rpc(
@@ -29,31 +24,18 @@ export const POST = async ({ locals, request }) => {
 		);
 		if (addressError) {
 			console.log('addressError', addressError);
-			return json(
-				{ message: 'Could not get metadata' },
-				{
-					status: 400
-				}
-			);
+			throw error(400, 'Could not get metadata');
 		} else {
 			let resultData = addressData[0];
-			const { error: updateMetadataError } = await supabaseClient.auth.updateUser(
-				formData.get('token'),
-				{
-					data: {
-						gurasid: resultData.gurasid,
-						principaladdresssiteoid: resultData.principaladdresssiteoid
-					}
+			const { error: updateMetadataError } = await supabaseClient.auth.updateUser({
+				data: {
+					gurasid: resultData.gurasid,
+					principaladdresssiteoid: resultData.principaladdresssiteoid
 				}
-			);
+			});
 			if (updateMetadataError) {
 				console.log('updateMetadataError', updateMetadataError);
-				return json(
-					{ message: 'Could not update metadata' },
-					{
-						status: 400
-					}
-				);
+				throw error(400, 'Could not update metadata');
 			}
 		}
 	}

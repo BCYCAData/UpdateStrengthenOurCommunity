@@ -13,9 +13,6 @@ export const actions = {
 		let message = `Your email change request has been received. Check for the confirmation email at ${session.user.email}. `;
 		message += '\r\n';
 		message += `You will then need to check for a second confirmation email at ${email}`;
-		// const { error } = await supabaseClient.auth.updateUser({
-		// 	email: email
-		// });
 		const { error } = await supabaseClient.auth.updateUser({
 			email: 'email'
 		});
